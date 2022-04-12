@@ -1,0 +1,9 @@
+{
+  "name": "client",
+  "version": "0.0.0",
+  "description": "client",
+  "author": {
+    "name": ""
+  },
+  "type": "module"
+}
