@@ -7,11 +7,8 @@ let s = "The quick brown fox jumped over the lazy dog",
     vow = vowels[i++],
     j = s.length - i,
     number = vow.charCodeAt(0),
-    arr = [],
-    states = ['start', 'read', 'write', 'idle', 'stop'],
-    state = states[states.length - 1];
+    arr = [];
 export default function sort() {
-    let aa = [], ba = [], ca = [], compRes;
     while (!res.done) {
         aa.unshift.apply(aa,
             [
