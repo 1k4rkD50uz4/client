@@ -9,43 +9,48 @@ export default function StringOperations() {
             vowels = ['a', 'e', 'i', 'o', 'u'],
             arr = [],
             inData,
-            outData,
-            patternStr='(',
-            matches;
+            outData;
         function main(inData=undefined) {
             while (!res.done) {
                 if (!inData) {
-                    c = res.value;
+                    outData = res.value;
+                    //c = res.value;
                     //arr[++i]=c;
                     //patternStr+=c+'-';
-                    outData = c;
-                    return outData;
+                    
+                    //return outData;
                 }
                 else {
-                    number = c.charCodeAt(i);
-                    pattern=//;
+                    //number = c.charCodeAt(i);
+                    //pattern=//;
                     //vowels[i++];
                     
                     
-                    pattern=/c/;
-                    matches=s.match(pattern);
-                    arr[i]=matches[0];
-                    arr[i]=matches[0];
+                    //pattern=/c/;
+                    //matches=s.match(pattern);
+                    //arr[i]=matches[0];
+                    //arr[i]=matches[0];
                     
                 }
-                res = iterator.next();
-                let compRes = compare(res.value, c);
-                if (compRes == -1) {
-                    arr.push(c);
-                    state = 'stopped';
-                }
-                else if (compRes == 1) {
+                //res = iterator.next();
+                if (!c) {
 
                 }
                 else {
+                    let compRes = compare(res.value, c);
+                    if (compRes == -1) {
+                        arr.push(c);
+                        state = 'stopped';
+                    }
+                    else if (compRes == 1) {
 
-                }
-                res = iterator.next();
+                    }
+                    else {
+
+                    }
+                }            
+                return outData;
+                //res = iterator.next();
             }
         }
         function compare(a, b) {
