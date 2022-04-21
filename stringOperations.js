@@ -13,7 +13,8 @@ export default function StringOperations() {
         function main(inData=undefined) {
             while (!res.done) {
                 if (!inData) {
-                    outData = res.value;
+                    c = res.value;
+                    arr.push(res.value.toLowerCase());
                     //c = res.value;
                     //arr[++i]=c;
                     //patternStr+=c+'-';
@@ -21,6 +22,9 @@ export default function StringOperations() {
                     //return outData;
                 }
                 else {
+                    c = inData;
+                    //pattern = new RegExp('[' + outData
+                    //    + '-' + vowels[i] + ']'); 
                     //number = c.charCodeAt(i);
                     //pattern=//;
                     //vowels[i++];
@@ -32,25 +36,24 @@ export default function StringOperations() {
                     //arr[i]=matches[0];
                     
                 }
-                //res = iterator.next();
-                if (!c) {
-
+                if (!outData) {
+                    //res = iterator.next();
                 }
                 else {
-                    let compRes = compare(res.value, c);
+                    let compRes = compare(c, res.value);
                     if (compRes == -1) {
                         arr.push(c);
-                        state = 'stopped';
+                        c = null;
                     }
                     else if (compRes == 1) {
 
                     }
                     else {
 
-                    }
-                }            
-                return outData;
-                //res = iterator.next();
+                    } 
+                }                
+                outData = c;
+                return outData;                
             }
         }
         function compare(a, b) {
