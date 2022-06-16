@@ -1,41 +1,36 @@
-let s = "The quick brown fox jumped over the lazy dog",
-    iter = s[Symbol.iterator](),
-    i = 0,
+import net from 'net';
+const s = "The quick brown fox jumped over the lazy dog";
+let iter = s[Symbol.iterator](),
     res = iter.next(),
-    c = res.value.toLowerCase(),
-    vowels = ['a', 'e', 'i', 'o', 'u'],
-    vow = vowels[i++],
-    j = s.length - i,
-    number = vow.charCodeAt(0),
-    arr = [],
-    states = ['start', 'read', 'write', 'idle', 'stop'],
-    state = states[states.length - 1];
-export default function sort() {
-    let aa = [], ba = [], ca = [], compRes;
-    while (!res.done) {
-        aa.unshift.apply(aa,
-            [
-                String.fromCharCode(number++),
-                String.fromCharCode(number)
-            ]
-        );
-        ba.unshift.apply(ba,
-            [
-                s.charAt(j),
-                s.charAt(i)
-            ]
-        );
-        ca.push(c);
-        number = c.charCodeAt(0) + 1;
-        c = String.fromCharCode(number);
-        ca.push(c);
-        i = s.indexOf(c) + 1;
-        ba.push(s.charAt(i));
-        j = vowels.indexOf(s.charAt(i)) + 1;
-        i = s.indexOf(vowels[j]);
-        ca.push(match);
+    value = res.value,
+    remotePort = 8000,
+    outData = { value: null };
+const client = net.createConnection({ port: remotePort }, () => {
+        console.log('connected to server!');
+    });
+    client.on('data', (data) => {
+        console.log(`char from server: ${data.toString()}`);
+        setNextChar();
+        client.write(outData.value);
+        client.end();
+    });
+    client.on('end', () => {
+        console.log('disconnected from server');
+});
+function setNextChar() {
+    res = iter.next();
+    if (compare(res.value, value)) {
+        outData.value = res.value;
     }
 }
-
-
-
+function compare(a, b) {
+    if (a < b) {
+        return -1;
+    }
+    else if (a > b) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
