@@ -3,9 +3,13 @@ const s = "The quick brown fox jumped over the lazy dog";
 let iter = s[Symbol.iterator](),
     res = iter.next(),
     value = res.value,
-    remotePort = 8000,
+    hostName = "127.0.0.1",
+    port = process.env.PORT || 8000,
     outData = { value: null };
-const client = net.createConnection({ port: remotePort }, () => {
+const client = net.createConnection({
+    port: port,
+    host: hostName
+}, () => {
         console.log('connected to server!');
     });
     client.on('data', (data) => {
