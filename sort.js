@@ -1,24 +1,46 @@
 const s = "The quick brown fox jumped over the lazy dog",
     i = 0,
     inc = i => ++i,    
-    itoa = (i, farr) => {
-        let [i, farr] = [...arguments];
-        String.fromCharCode(+`0x${i}`)
+    itoa = () => {
+        let [_i, _farr] = [...arguments];
+        String.fromCharCode(+`0x${_i}`)
     },
-    getCode = (c=s[i]) => c.charCodeAt(i),
-    atoi = arr => {
-        let c = getCode;
-        for (let f of arr) {            
-            c = f.(c,i);
+    getCode = (c = s[i]) => c.charCodeAt(i),
+    atoi = fcns => {
+        let res;
+        res = res['charCodeAt'](i);
+        let res;
+        for (let name of fcns) {
+            if (name == 'charCodeAt') {
+                if (!res) {
+                    res = s[i];
+                }
+                else {
+
+                }
+            }
+
+            res = String.prototype.hasOwnProperty('toLowerCase');
         }
-        return c;
+        return res;
+        for (let name of fcns) { 
+            if(name == )
+            if (!res) {
+                res=
+            }
+            else {
+
+            }
+            res = String.prototype.hasOwnProperty('toLowerCase');
+        }
+        return res;
     };
+let temp = atoi([c => c.toLowerCase(), getCode, inc]);
 function sort() {
     let j = s.length - inc(i),
         iter = s[Symbol.iterator](),
         res = iter.next(),
         c = res.value,
-        _c = atoi([]);
         arr = (() => {            
             let _arr = [s[('' + c.charCodeAt(i))[inc(i)]]];
             c = String.fromCharCode(+`0x${atoi('' + c.charCodeAt(i))}`);
