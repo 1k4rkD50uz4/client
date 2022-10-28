@@ -1,40 +1,86 @@
 import net from 'net';
-const s = "The quick brown fox jumped over the lazy dog";
-let iter = s[Symbol.iterator](),
-    res = iter.next(),
-    value = res.value,
-    hostName = "127.0.0.1",
-    port = process.env.PORT || 8000,
-    outData = { value: null };
-const client = net.createConnection({
-    port: port,
-    host: hostName
-}, () => {
-        console.log('connected to server!');
+const s = "The quick brown fox jumped over the lazy dog",
+    i = 0,
+    inData = { value: null, done: false },
+    outData = { value: null, done: false },
+    timer = ms => new Promise(res => setTimeout(res, ms)),
+    inc = i => ++i,
+    client = net.createConnection(
+        8000,
+        '169.254.247.167',
+        () => {
+        console.log('connected to server!'); 
     });
     client.on('data', (data) => {
-        console.log(`char from server: ${data.toString()}`);
-        setNextChar();
-        client.write(outData.value);
-        client.end();
+        inData.value = data.toString();
+        console.log(`data from server: ${inData.value}`);
     });
-    client.on('end', () => {
-        console.log('disconnected from server');
+client.on('end', () => {
+    console.log('disconnected from server');
 });
-function setNextChar() {
-    res = iter.next();
-    if (compare(res.value, value)) {
-        outData.value = res.value;
+let _data,
+    j = s.length - inc(i),
+    c = s[j],
+    enumtor = getEnumerator(),
+    res = enumtor(),    
+    arr=[];
+function getEnumerator() {
+    let iter = s[Symbol.iterator](),
+        res = { value: undefined, done: false };
+    function enumerator() {
+        while (!res.done) {
+            res = iter.next();
+            return res;
+        }
     }
+    return enumerator;
 }
 function compare(a, b) {
     if (a < b) {
-        return -1;
+        return true;
     }
     else if (a > b) {
-        return 1;
+        return false;
     }
     else {
-        return 0;
+        return undefined;
     }
 }
+function init() {
+    outData.value = res.value;
+    res = enumtor();
+    arr.splice(i, i, s[j--], res.value);
+    res = enumtor();
+    c = s[j--];
+    arr.splice(i, i, s[j], res.value);
+}
+
+async function main() {
+    let _res;
+    while (!res.done) {
+        // Wait for data from the server
+        await timer(3000);
+        _res = compare(res.value, inData.value);
+        if (_res) {
+            if (inc(number) == next) {
+                max = s[j--];
+                min = s[j];
+            }
+            else {
+
+            }
+        }
+        else if (_res == false) {
+
+        }
+        //if (inc(number) == next) {
+        //    max = s[j--];
+        //    min = s[j];
+        //}
+        //else {
+
+        //}
+        res = enumtor();
+    }
+}
+main();
