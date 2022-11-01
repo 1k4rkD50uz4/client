@@ -1,68 +1,54 @@
 const s = "The quick brown fox jumped over the lazy dog",
     i = 0,
     inc = i => ++i, 
-    arr=[],
-    atoi = (val = s[i], fname = 'charCodeAt', count=0) => {
-        val = val[fname](i);
-        if (fname != 'charCodeAt') {
-            return atoi(val,undefined,count);
-        }
-        else {
-            if (count == 1) {
-                return atoi(val, null, count);
-            }
-            else {
-                res = inc(res);
-            }
-            
-        }
-        //if (pre == '0x') {
-        //    res = pre + res;
-        //}
-        //else {
-        //    res = +res;
-        //}
-    };
+    arr=[];
 let iter = s[Symbol.iterator](),
     res = iter.next(),
-    j=i,
+    j = i,
+    two = 2,
+    k,
     c = res.value,
-    number = c.charCodeAt(i);
+    cbArr = ['charCodeAt', () => c.toString(), 'charAt'],
+    indArr = [];
 res = iter.next();
 function main() {
-    while (!res.done) {
-        if (c < res.value) {
-            number = c.charCodeAt(i)
-        }
-        else {
-            if (j == 1) {
-                let _arr = [s[s.length - j], ...arr.splice(j, j, res.value)];
-                c = s;
-                continue;
+    while (!res.done) {         
+        arr.splice(i, i, res.value);       
+        for (let val of cbArr) {
+            if (typeof (val) == "function") {
+                c = val(c);
             }
             else {
-                let _s = `0x${number.toString().charAt(inc(i)).charCodeAt(i)}`;
-                c = String.fromCharCode(+_s).toLowerCase();
-                arr.push(c);
-                j++;
-                _s = number.toString().charAt(i);
-                number = _s.charCodeAt(i);
-                _s = number.toString().charAt(inc(i));
-                c = s[+_s];
-            }            
+                if (j == two && j != cbArr.length-inc(i)) {
+                    let cb = cbArr[++j];
+                    c = c[val](cb(i));
+                    cb = cbArr[++j];
+                    c = cb(c);
+                    j--;
+                    break;
+                }
+                else {
+                    c = c[val](i);
+                }                
+            }
+            j++;
         }
-        if (res.value != ' ') {
-            arr.splice(j, j, res.value)
+        j = j == cbArr.length ? 0 : --j;
+        if (!j) {
+            cbArr.push.apply(cbArr, [inc, () => s[+c]]);
         }
         else {
-            arr.splice(++j, i, c, s[s.length - j++]);
-            arr.unshift(s[s.length - j--]);
+            j = s.length - inc(j);
+            arr.unshift(s[j]);
+            arr.push(c);
+            j--;
             c = s[s.length - j];
-            let results = getMatches();
-            res = iter.next();
-        }
-        arr.splice(j, j, res.value);
+        }        
         res = iter.next();
+        k = Math.abs(j);
+        if (k > two) {
+            indArr.push(k);
+        }
     }
     function getMatches() {
         let regex = new RegExp(c),
