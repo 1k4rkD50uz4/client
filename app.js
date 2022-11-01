@@ -1,13 +1,49 @@
 import net from 'net';
 const s = "The quick brown fox jumped over the lazy dog",
-    i = 0,
     inData = { value: null, done: false },
     outData = { value: null, done: false },
     timer = ms => new Promise(res => setTimeout(res, ms)),
-    inc = i => ++i,
+    Char = {
+        _i: 0,
+        _fname: 'toLowerCase',
+        get i() {
+            return this._i;
+        },
+        set i(ind) {
+            this._i = ind;
+        },
+        get fname() {
+            return this.cb;
+        },
+        set fname(name) {
+            this._fname = name;
+        },
+        inc = i => ++i
+    },    
+    arr = [],    
+    atoi = (val = s[i], fname = 'charCodeAt', count = 0) => {
+        val = val[fname](i);
+        if (fname != 'charCodeAt') {
+            return atoi(val, undefined, count);
+        }
+        else {
+            if (count == 1) {
+                return atoi(val, null, count);
+            }
+            else {
+                res = inc(res);
+            }
+
+        }
+        //if (pre == '0x') {
+        //    res = pre + res;
+        //}
+        //else {
+        //    res = +res;
+        //}
+    },
     client = net.createConnection(
         8000,
-        '169.254.247.167',
         () => {
         console.log('connected to server!'); 
     });
@@ -18,69 +54,14 @@ const s = "The quick brown fox jumped over the lazy dog",
 client.on('end', () => {
     console.log('disconnected from server');
 });
-let _data,
-    j = s.length - inc(i),
-    c = s[j],
-    enumtor = getEnumerator(),
-    res = enumtor(),    
-    arr=[];
-function getEnumerator() {
-    let iter = s[Symbol.iterator](),
-        res = { value: undefined, done: false };
-    function enumerator() {
-        while (!res.done) {
-            res = iter.next();
-            return res;
-        }
-    }
-    return enumerator;
-}
-function compare(a, b) {
-    if (a < b) {
-        return true;
-    }
-    else if (a > b) {
-        return false;
-    }
-    else {
-        return undefined;
-    }
-}
-function init() {
-    outData.value = res.value;
-    res = enumtor();
-    arr.splice(i, i, s[j--], res.value);
-    res = enumtor();
-    c = s[j--];
-    arr.splice(i, i, s[j], res.value);
-}
+let i = 0,
+    c = s[i];
+async function main(val = c, fname = 'charCodeAt', count = 0) {
+    outData.value = val[fname](i);
+    if (val != c) {
 
-async function main() {
-    let _res;
-    while (!res.done) {
-        // Wait for data from the server
-        await timer(3000);
-        _res = compare(res.value, inData.value);
-        if (_res) {
-            if (inc(number) == next) {
-                max = s[j--];
-                min = s[j];
-            }
-            else {
-
-            }
-        }
-        else if (_res == false) {
-
-        }
-        //if (inc(number) == next) {
-        //    max = s[j--];
-        //    min = s[j];
-        //}
-        //else {
-
-        //}
-        res = enumtor();
     }
+    return main(val,);
+    await timer(3000);
 }
-main();
+main.call(undefined, 'toLowerCase');
