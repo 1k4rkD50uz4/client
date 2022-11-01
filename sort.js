@@ -27,8 +27,7 @@ let iter = s[Symbol.iterator](),
     res = iter.next(),
     j=i,
     c = res.value,
-    number = c.charCodeAt(i),
-    _arr;
+    number = c.charCodeAt(i);
 res = iter.next();
 function main() {
     while (!res.done) {
@@ -62,6 +61,7 @@ function main() {
             let results = getMatches();
             res = iter.next();
         }
+        arr.splice(j, j, res.value);
         res = iter.next();
     }
     function getMatches() {
