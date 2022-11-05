@@ -1,101 +1,100 @@
 const s = "The quick brown fox jumped over the lazy dog",
     i = 0,
-    inc = i => ++i, 
-    arr=[];
+    inc = i => ++i;
 let iter = s[Symbol.iterator](),
     res = iter.next(),
-    j = i,
-    two = 2,
-    k,
+    j=i,
     c = res.value,
-    cbArr = ['charCodeAt', () => c.toString(), 'charAt'],
-    indArr = [];
+    cbArr = ['charCodeAt', 'toString', 'charAt'],
+    arr = [];
 res = iter.next();
 function main() {
-    while (!res.done) {         
-        arr.splice(i, i, res.value);       
+    while (!res.done) { 
+        arr.splice(i, i, res.value); 
+        atoi();
+        res = iter.next();
+    }
+    function atoi() {
         for (let val of cbArr) {
             if (typeof (val) == "function") {
                 c = val(c);
             }
             else {
-                if (j == two && j != cbArr.length-inc(i)) {
-                    let cb = cbArr[++j];
-                    c = c[val](cb(i));
-                    cb = cbArr[++j];
-                    c = cb(c);
-                    j--;
-                    break;
+                let param;
+                if (typeof (c) == "number") {
+                    param = undefined;
                 }
                 else {
-                    c = c[val](i);
-                }                
+                    if (!j) {
+                        param = i;
+                    }
+                    else {
+                        param = val == 'charCodeAt' ? i : j;
+                    }
+                } 
+                c = c[val](param);
             }
-            j++;
         }
-        j = j == cbArr.length ? 0 : --j;
         if (!j) {
-            cbArr.push.apply(cbArr, [inc, () => s[+c]]);
+            j++;
+            atoi();
         }
-        else {
-            j = s.length - inc(j);
-            arr.unshift(s[j]);
-            arr.push(c);
-            j--;
-            c = s[s.length - j];
-        }        
-        res = iter.next();
-        k = Math.abs(j);
-        if (k > two) {
-            indArr.push(k);
+        else if (j == inc(i)) {
+            arr.unshift(s[s.length - j++]);
+            arr.push(s[c]);
+            c = s[s.length - j++];
+            res = iter.next();
+            arr.unshift.call(arr, s[s.length - j], res.value);
+            getMatches();
         }
     }
     function getMatches() {
         let regex = new RegExp(c),
             result = regex.exec(s),
-            results = [];
+            results = [],
+            done=false;
         j = inc(result.index);
         results.push(s[j]);
         let _s = s.substr(j);
-        while (j) {
+        while (!done) {            
             result = regex.exec(_s);
-            if (!result) {
-                c = String.fromCharCode(--number);
-                arr.unshift(c);
-                j = s.indexOf(c);
-                c = s[--j];
-                j++;
-                results.push(s[++j]);
-                results.splice((results.length - inc(i)), i, s[++j]);
-                j = s.indexOf(regex.source);
-                break;
-            }
-            else {
-                j = inc(result.index);
-                c = _s[j];
-                if (c < results[i]) {
-                    results.unshift(c);
-                }
-                else {
-                    let _i = 0;
-                    while (c > results[_i]) {
-                        _i++;
-                    }
-                    results.splice(_i, i, c);
-                }
-                c = s[j];
-                if (c < arr[i] && c != ' ') {
-                    c = s[j];
+            j = inc(result.index);
+            c = _s[j];
+            let next = s[s.length - j];
+            if (inc(c.charCodeAt(i)) == next.charCodeAt(i)) {
+                results.push.call(results, c, next);
+                c = s[s.length - ++j];
+                if (inc(next.charCodeAt(i)) == c.charCodeAt(i)) {
+                    results.push(c);
+                    c = s[s.length - ++j];
                     arr.unshift(c);
-                    number = c.charCodeAt(i);
                 }
-                else if (c < results[i]) {
-                    results.unshift(c);
-                }
-                _s = _s.substr(j);
+            }
+            c = arr[arr.length - inc(i)];
+            next = _s[j];
+            if (inc(c.charCodeAt(i)) == next.charCodeAt(i)) {
+                arr.push(next);
+            }
+            _s = _s.substr(inc(i));
+            c = _s[i];
+            results.unshift(c);
+            res = iter.next();
+            res = iter.next();
+            c = res.value;
+            j = _s.indexOf(String.fromCharCode(inc(regex.source.charCodeAt(i))));
+            next = c;
+            c = _s[j];
+            if (inc(c.charCodeAt(i)) == next.charCodeAt(i)) {
+                results.splice(inc(i), i, regex.source, c, next);
+                _s = _s.substr(inc(i));
+            }
+            c = _s[inc(i)];
+            next = arr[arr.length - inc(i)];
+            if (inc(c.charCodeAt(i)) == next.charCodeAt(i)) {
+                results.splice(inc(i), i, regex.source, c, next);
+                _s = _s.substr(inc(i));
             }
         }
-        return results;
     }
 }
 main();
