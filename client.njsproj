@@ -24,7 +24,6 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sort.js" />
     <Compile Include="app.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
