@@ -26,7 +26,6 @@ const compare = (a, b) => a < b ? true : a > b ? false : undefined,
                 c.write(outData.value.toString());
                 res = iter.next();
             }
-            //client.end();
         });
         client.on('end', () => {
             console.log('disconnected from server');
