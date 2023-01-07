@@ -1,13 +1,11 @@
-import Util from "./util.js";
-function Adder() { 
+export default function BinaryAdder() { 
     let value = false, carry = false, result = false,
-        i = 0, x = 2, y = 0, n = 2, b, lb= '', ub = '', s='', nStr='', sum=0;
+        i = 0, x = 2, y = 0, n = x ** x, b, lb= '', ub = '', s='', nStr='', sum=0;
     function inc() {
         result = value || carry;
         carry = value ^ carry ? false : true;         
     }
     return function () {
-        n = n ** 2;
         while (y < 8) {
             b = (result | false);
             let temp = y;
@@ -16,12 +14,9 @@ function Adder() {
                 nStr += y;
             }
             inc(); 
+            lb += b;
             if (!b) {
-                lb += b;  
                 ub += (result | false);
-            }
-            else {
-                lb += b;
             }
             sum += y;
         }
@@ -31,10 +26,3 @@ function Adder() {
         return out;
     }
 } 
-const BinaryOperations = {
-    namespace: `${Util.getNamespace.call({
-        namespace: 'BinaryOperations'
-    })}`,
-    adder: Adder
-};
-export default BinaryOperations;
