@@ -1,69 +1,73 @@
 import net from 'net';
-import utils from '../utils/utils.js';
-import { Buffer } from 'buffer';
-const BUFFERSIZE = 100;
-let writeBuf = Buffer.alloc(BUFFERSIZE),
-    readBuf = Buffer.alloc(BUFFERSIZE);
+import utils from '../../utils/utils.js';
+import { Worker } from 'worker_threads';
+const worker = new Worker('./worker.js');
 const client = net.createConnection({ host: "192.168.1.2", port: 8000 }, () => {
-    console.log('connected to server!');   
+    console.log('connected to server!'); 
+    try {
+        workerData.value.arr.unshift(workerData.value.c);
+        workerData.value.iter.next();
+        workerData.value.c = workerData.value.iter.next().value;
+        worker.postMessage(workerData.value.iter.next());
+        client.write(workerData.value.arr.toString());
+    }
+    catch (e) {
+        throw (e);
+    }
 });
 client.on('data', (data) => {
-    readData.call(data);
     console.log(data.toString());
 });
 client.on('end', () => {
     console.log('disconnected from server');
 });
+worker.on('message', (msg) => {
+    const inc = utils.inc;
+    let i = msg.i,
+        c = String.fromCharCode(inc(msg.c.charCodeAt(i))),
+        arr = msg.arr;
+    workerData.value.i += inc(i);
+    i = s.length - inc(workerData.value.i);
+    workerData.value.i = --i;
+    arr.push(c);
+    //workerData.value.c = s[--workerData.value.i];
+    workerData.value.c = s[--s.lastIndexOf(c.toLowerCase())];
+    c = s[workerData.value.i];
+    workerData.value.arr = arr;
+    console.log(`child received a message from the worker: ${JSON.stringify(inData)}`);
+});
+worker.on('exit', (code) => {
+    console.log('our worker stopped with the following code: ', code);
+});
+const s = utils.sentence,
+    iter = s[Symbol.iterator]();
+let workerData = { value: (() => iter.next().value)(), done: false },
+    inData;
+worker.postMessage(workerData);
 function main() {
-    const s = utils.sentence,
-        si = s[Symbol.iterator]();
-    function doWork() {
-        const inc = utils.inc,
-            compare = utils.compare;
-        let i = 0,
-            c = String.fromCharCode(
-                s[i]
-                    .charCodeAt(i)
-                    .toString()[i]
-                    .charCodeAt(i)
-                    .toString()
-                    .split('')
-                    .reverse()
-                    .join('')
-            ),
-            sres = si.next(),
-            compChar = c.toLowerCase();
-        client.write(c.toString());
-        while (!sres.done) {
-            let res = compare(c, compChar);
-            if (res == -1) {
-                writeBuf.write(c,i++);
-                c = sres.value; 
-                sres = si.next();
-            }
-            else if (res == 1) {
-                writeBuf.write(compChar, i++);
-                compChar = c;
-                c = sres.value; 
-            }
+    let res = iter.next(),
+        i = 0,
+        c = res.value,
+        arr = [];
+    while (!res.done) {
+        res = iter.next();
+        if (c < res.value) {
+            arr.push(c);
+            c = res.value;
+        }
+        else if (c > res.value) {
+            i++;
+            arr.push.apply(arr,[s[s.length-i],c]);
+            c = res.value;
+            workerData.value = {
+                i: i,
+                c: c,
+                arr: arr,
+                iter:iter
+            };
+            break;
         }
     }
-    return doWork();
-}
-function readData() {
-    let i = 0,
-        buf = this,
-        bi = buf[Symbol.iterator](),
-        br = bi.next(),
-        c = br.value;
-    while (!br.done) {
-        readBuf[i++] = c;
-        br = bi.next();
-        c = br.value;
-    }
-    //bytesRcvd = ;
-    //totalBytesRcvd += bytesRcvd;
-    //rcvBuffer.copy(data.buffer, 0, 0, bytesRcvd);
 }
 main();
 export default client;
