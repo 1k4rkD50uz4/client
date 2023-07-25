@@ -6,8 +6,7 @@
     <ProjectGuid>{b043639c-7d66-459f-b67a-026b6c7cf224}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>main.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -16,7 +15,9 @@
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
     <StartWebBrowser>False</StartWebBrowser>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
-    <NodejsPort>3000</NodejsPort>
+    <NodejsPort>8000</NodejsPort>
+    <NodeExePath>C:\Program Files\nodejs\node.exe</NodeExePath>
+    <DebuggerPort>5000</DebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -26,6 +27,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="main.js" />
+    <Compile Include="todo.js" />
     <Compile Include="worker.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
